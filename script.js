@@ -6,9 +6,19 @@ const classNames = {
 }
 
 const list = document.getElementById('todo-list')
-const itemCountSpan = document.getElementById('item-count')
-const uncheckedCountSpan = document.getElementById('unchecked-count')
+const itemCount  = document.getElementById('item-count')
+const uncheckedCount = document.getElementById('unchecked-count')
 
 function newTodo() {
-  alert('New TODO button clicked!')
+	incrementCounts();
+	var newJob = document.createElement("div");
+	newJob.className = classNames.TODO_ITEM;
+	newJob.innerHTML = "Todo No." + itemCount.innerHTML
+	list.appendChild(newJob);
+	list.appendChild(document.createElement("li"));
+}
+
+function incrementCounts(){
+	itemCount.innerHTML++;
+	uncheckedCount.innerHTML++;
 }
