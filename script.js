@@ -5,20 +5,112 @@ const classNames = {
   TODO_DELETE: 'todo-delete',
 }
 
-const list = document.getElementById('todo-list')
-const itemCount  = document.getElementById('item-count')
-const uncheckedCount = document.getElementById('unchecked-count')
 
-function newTodo() {
-	incrementCounts();
-	var newJob = document.createElement("div");
-	newJob.className = classNames.TODO_ITEM;
-	newJob.innerHTML = "Todo No." + itemCount.innerHTML
-	list.appendChild(newJob);
-	list.appendChild(document.createElement("li"));
+class Todo{
+	constructor(no){
+		this.id = no
+		this.parentNode = document.createElement("li");
+		this.jobItem = this.createJobBox();
+		this.checkbox = this.createCheckbox();
+		this.button = this.createButton();
+		this.createTodo();
+	}
+
+	createTodo(){
+		this.jobItem.appendChild(this.checkbox);
+		this.jobItem.appendChild(this.button);
+		this.parentNode.appendChild(this.jobItem);
+	}
+
+	createJobBox(){
+		const jobItem = document.createElement("div");
+		jobItem.className = classNames.TODO_ITEM;
+		jobItem.innerHTML = "Todo No." + this.id
+		return jobItem
+	}
+
+	createButton(){
+		let button = document.createElement("button");
+		button.className = classNames.TODO_DELETE
+		button.innerHTML = "Remove"
+		button.addEventListener("click", () => removeTodo(this.id))
+		return button
+	}
+
+	createCheckbox(){
+		const checkbox = document.createElement("input");
+		const inputType = document.createAttribute("type")
+		inputType.value = "checkbox"
+		checkbox.setAttributeNode(inputType); 
+		checkbox.className = classNames.TODO_CHECKBOX
+		checkbox.innerHTML = "Done"
+		checkbox.addEventListener("change", update)
+		return checkbox
+	}
+
+	isChecked(){
+		return this.checkbox.checked
+	}
 }
 
-function incrementCounts(){
-	itemCount.innerHTML++;
-	uncheckedCount.innerHTML++;
+class TodoList{
+	constructor(){
+		this.list = []
+		this.lastID = 0
+		this.domList = document.getElementById('todo-list')
+		this.domCount  = document.getElementById('item-count')
+		this.domUncheckCount = document.getElementById('unchecked-count')
+	}
+
+
+	createTodo() {
+		const todo = new Todo(this.lastID++);
+		this.domList.appendChild(todo.parentNode);
+		this.list.push(todo)
+		this.update();
+	}
+
+	removeTodo(number){
+		let remove = null
+		this.list.forEach(
+			function(todo){
+				if(todo.id === number){
+					remove = todo
+					remove.parentNode.innerHTML = ""
+				}
+			}
+		)
+		let index = this.list.indexOf(remove);
+  		this.list.splice(index, 1);
+		this.update()
+	}
+
+	update(){
+		this.domCount.innerHTML = this.list.length;
+		this.getUncheckedCount();
+	}
+
+	getUncheckedCount(){
+		let count = 0
+		this.list.forEach(
+			function(todo){if(!todo.isChecked()){count++}}
+		)
+		console.log(count)
+		this.domUncheckCount.innerHTML = count
+	}
+
+}
+
+const todoList = new TodoList();
+function newTodo(){
+	todoList.createTodo();
+}
+
+function removeTodo(number){
+	console.log("removing a todo...")
+	todoList.removeTodo(number);
+}
+
+function update(){
+	todoList.update();
 }
