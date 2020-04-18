@@ -11,6 +11,7 @@ class Todo{
 		this.id = no
 		this.parentNode = document.createElement("li");
 		this.jobItem = this.createJobBox();
+		this.textbox = this.createTextBox();
 		this.checkbox = this.createCheckbox();
 		this.button = this.createButton();
 		this.createTodo();
@@ -19,6 +20,8 @@ class Todo{
 	createTodo(){
 		this.jobItem.appendChild(this.checkbox);
 		this.jobItem.appendChild(this.button);
+		this.jobItem.appendChild(this.createBreak());
+		this.jobItem.appendChild(this.textbox);
 		this.parentNode.appendChild(this.jobItem);
 	}
 
@@ -27,6 +30,17 @@ class Todo{
 		jobItem.className = classNames.TODO_ITEM;
 		jobItem.innerHTML = "Todo No." + this.id
 		return jobItem
+	}
+
+	createTextBox(){
+		let text = document.createElement("TextArea");
+		text.style.width = "100%";
+		return text
+	}
+
+	createBreak(){
+		let lineBreak = document.createElement("br");
+		return lineBreak 
 	}
 
 	createButton(){
