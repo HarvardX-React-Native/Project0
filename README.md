@@ -5,10 +5,10 @@ a TODO app. This app should be able to add TODOs and track the number of total
 TODOs as well as the number of unchecked TODOs.
 
 ## Checklist
-✓ Can add TODOs
-✓ Can correctly track the total number of TODOs
-✓ Can correctly track the number of unchecked TODOs
-✓ Can delete/remove TODOs (Challenge)
+✓ Can add TODOs  
+✓ Can correctly track the total number of TODOs  
+✓ Can correctly track the number of unchecked TODOs  
+✓ Can delete/remove TODOs (Challenge)  
 
 ## Instructions
 Inside of [index.html](/index.html), you'll find some starter HTML. You shouldn't
