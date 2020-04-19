@@ -7,10 +7,10 @@ const classNames = {
 
 
 class Todo{
-	constructor(no){
+	constructor(no, title){
 		this.id = no
 		this.parentNode = document.createElement("li");
-		this.jobItem = this.createJobBox();
+		this.jobItem = this.createJobBox(title);
 		this.textbox = this.createTextBox();
 		this.checkbox = this.createCheckbox();
 		this.button = this.createButton();
@@ -25,10 +25,10 @@ class Todo{
 		this.parentNode.appendChild(this.jobItem);
 	}
 
-	createJobBox(){
+	createJobBox(title){
 		const jobItem = document.createElement("div");
 		jobItem.className = classNames.TODO_ITEM;
-		jobItem.innerHTML = "Todo No." + this.id
+		jobItem.innerHTML = "Todo No. " + this.id + ": " + title
 		return jobItem
 	}
 
@@ -70,7 +70,7 @@ class Todo{
 class TodoList{
 	constructor(){
 		this.list = []
-		this.lastID = 0
+		this.currentID = 1
 		this.domList = document.getElementById('todo-list')
 		this.domCount  = document.getElementById('item-count')
 		this.domUncheckCount = document.getElementById('unchecked-count')
@@ -78,7 +78,8 @@ class TodoList{
 
 
 	createTodo() {
-		const todo = new Todo(this.lastID++);
+		const todoTitle = prompt("What are you going todo?")
+		const todo = new Todo(this.currentID++, todoTitle);
 		this.domList.appendChild(todo.parentNode);
 		this.list.push(todo)
 		this.update();
@@ -109,7 +110,6 @@ class TodoList{
 		this.list.forEach(
 			function(todo){if(!todo.isChecked()){count++}}
 		)
-		console.log(count)
 		this.domUncheckCount.innerHTML = count
 	}
 
@@ -121,7 +121,6 @@ function newTodo(){
 }
 
 function removeTodo(number){
-	console.log("removing a todo...")
 	todoList.removeTodo(number);
 }
 
